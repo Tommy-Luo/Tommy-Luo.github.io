@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+        C++符号多重含义（&amp;,*） |
+        
+        Keep
+    </title>
+    <link rel="shortcut icon" href="/Tommy-Luo.github.io/images/logo.svg">
+    
+<link rel="stylesheet" href="/Tommy-Luo.github.io/css/style.css">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"tommy-luo.github.io","root":"/Tommy-Luo.github.io/"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":true,"expand_all":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.png","favicon":"/images/logo.svg","img_position":"left","left_side_width":"260px","content_max_width":"900px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."}},"local_search":{"enable":false,"trigger":"auto","unescape":false,"preload":false},"version":"3.0.4"};
+    KEEP.language = {"search":"Search...","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"Powered by %s","theme":"Theme","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","tagcloud":"Tag Cloud","comment":"Comment","home":"Home","archive":"Archive","archives":"Archives","about":"About","site_uv":"Visitor Count","site_pv":"Totalview","links":"Links","link":"Link","top":"TOP","read_more":"Read more","wordcount":"Words","min2read":"Mins","changelog":"Changelog","copyright":{"author":"Post author","title":"Post title","link":"Post link","create_time":"Create time","license_title":"Copyright Notice","license_content":"All articles in this blog are licensed under %s unless stating additionally."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"}};
+  </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+        <a class="logo-title" href="/">
+            Keep
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/Tommy-Luo.github.io/"
+                    >
+                        HOME
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/Tommy-Luo.github.io/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/Tommy-Luo.github.io/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/Tommy-Luo.github.io/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">C++符号多重含义（&amp;,*）</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/Tommy-Luo.github.io/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>Keep team</span>
+                        <span class="level">Lv1</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-calendar"></i> 2021-01-19 03:51:00
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/Tommy-Luo.github.io/categories/C-%E5%9F%BA%E7%A1%80/">C++基础</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/Tommy-Luo.github.io/tags/C/">C++</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>不管是刚刚接触C++的初学者还是已经熟练掌握STL的大佬，引用和指针一直来都是C++或其他类C语言让人头疼的东西，可以说没有真正接触引用和指针，就没有真正意义上学会C++， 而该篇文章主要是就个人观点以及总结《C++Primer》上的相关知识点，对于<code>&amp;</code>和<code>*</code>符号进行个人总结，仅供于个人复习或参考。</p>
+<h2 id="对于-amp"><a href="#对于-amp" class="headerlink" title="对于&amp;"></a>对于<code>&amp;</code></h2><p>我们都知道，<code>&amp;</code>是取地址符，对于计算机而言，无法识别高级语言，机器本身只能识别01的机械语言，而<code>&amp;</code>相当于是我们能够人为获取计算机内存中的某块地址。<br>而在C++里，&amp;的用法可不止这一项，还有一种用法，叫做<strong>引用</strong>。</p>
+<p>于是<code>&amp;</code>的含义有：</p>
+<ol>
+<li>作为取地址符，获取相应变量的地址。</li>
+<li>作为引用，相当于是一个已经存在的对象所起的别名。</li>
+</ol>
+<h2 id="对于"><a href="#对于" class="headerlink" title="对于*"></a>对于<code>*</code></h2><p>如果是刚刚接触编程的朋友或者没写过代码的童鞋，看到“*”想到的肯定是乘法运算，作为类C语言里最令人咬牙切齿的东西莫过于<strong>指针</strong>了，而在C++里，对于<code>*</code>的用法虽然说可能大部分都是指针的创建和赋值，但是绝对不是全部都是如此。</p>
+<p>于是<code>*</code>的含义有：</p>
+<ol>
+<li>作为指针，实现对其他对象的间接访问，其本身就是一个对象，运行赋值和拷贝。</li>
+<li>作为解引用符，访问指针指向的对象</li>
+</ol>
+<h2 id="引用的典型案例"><a href="#引用的典型案例" class="headerlink" title="引用的典型案例"></a>引用的典型案例</h2><pre><code>int i,&amp;ri = i;
+i= 5;
+ri =10;
+std::cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; ri;
+//输出结果i = 10,ri =10
+return 0;</code></pre>
+<p>就如我们刚才所说的，引用本身就是一个已经存在的对象所起的别名，自然而然改变别名的内容，也就改变了原内容，这也就是为什么引用永远都要初始化的原因。</p>
+<h2 id="指针的典型案例"><a href="#指针的典型案例" class="headerlink" title="指针的典型案例"></a>指针的典型案例</h2><pre><code>int i , *p;
+i= 5;
+p = &amp;i;
+std::cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; p &lt;&lt; &quot; &quot; &lt;&lt; *p;
+//输出结果i = 5，p = 0x7ffeefbff4ac , *p = 5
+return 0;</code></pre>
+<p>这里需要加强记忆了，很多人对于目前而言所认知的指针都是：p存放的是内容的地址，*p存放的是内容本身<br>当然了，这样的说法是正确的，但是为了我们能够清楚的认识指针，明白<code>*</code>符号的多重含义，我们需要有一个明确的知识记忆。</p>
+<pre><code>int i = 5;
+int *p = &amp;i;
+int *pi = 0;
+*p = 0;
+std::cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; p &lt;&lt; &quot; &quot; &lt;&lt; *p;</code></pre>
+<p>   这里将0赋给p所指的内容，也就是修改了<em>p，正如大部分人所说</em>p存放的是指针p的内容，这种访问方法叫做指针的<strong>解引用</strong>，给解引用的结果赋于新的值，也就是给指针所指的对象赋值。<br>    接下来再看</p>
+<pre><code>int i = 5;
+int *p = &amp;i;
+int *pi = 0;
+p = pi;
+std::cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; p &lt;&lt; &quot; &quot; &lt;&lt; *p;
+//输出结果i= 5，p = NULL ,*p = NUll</code></pre>
+<p>这里所做的操作是将空指针pi的内容赋给p，相当于p和pi都指向了空指针。这里不由产生了一个疑问，既然是将pi的内容付给p，那为什么不是p = *p呢？<br>前面对引用和指针做了简单的个人总结，接下来也就是本篇文章的重点了。</p>
+<h2 id="符号的上下文决定了符号的含义。"><a href="#符号的上下文决定了符号的含义。" class="headerlink" title="符号的上下文决定了符号的含义。"></a>符号的上下文决定了符号的含义。</h2><p>我们在观察引用和指针的时候发现，引用<code>&amp;ri</code>和指针<code>*p</code>在具体进行赋值操作的时候为什么缺少了之前的&amp;和*符号呢？那是因为他们在定义语句中时，分别写成了<code>&amp;ri</code>和<code>*p</code>的形式：</p>
+<blockquote>
+<p>int &amp;ri = i<br> int *p = i</p>
+</blockquote>
+<p>其中对应的ri和p是变量名，通过定义指针类型和引用的方法才将声明符写成<code>&amp;ri</code>和<code>*p</code>的形式，所以在赋值语句中：</p>
+<blockquote>
+<p> ri =10; //改变引用内容<br> p = &i; //改变指针指向</p>
+</blockquote>
+<p>分别没有了<code>&amp;</code>和<code>*</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>典型的一看就会一用就费，绞尽脑汁，还是那句话，学了就得用，不用就会忘，最好的记忆方法还是教别人，假装别人不会，管他的，关键得自己掌握不是吗。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;ri = i;<span class="comment">//&amp;出现在定义语句里，作为声明符，表示引用</span></span><br><span class="line"><span class="keyword">int</span> *p；<span class="comment">//*出现在定义语句里，作为声明符，表示指针</span></span><br><span class="line">p = &amp;i;<span class="comment">//&amp;出现在赋值语句里，作为取地址符</span></span><br><span class="line">*p = i;<span class="comment">//*出现在赋值语句里，作为解引用</span></span><br><span class="line"><span class="keyword">int</span> &amp;r2 = *p;<span class="comment">//&amp;出现在定义语句里，作为声明符，表示引用，*出现在赋值语句里，作为解引用</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：C++符号多重含义（&amp;,*）</li>
+        <li>Post author：Keep team</li>
+        <li>Create time：2021-01-19 03:51:00</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2021/01/19/C++符号的多重含义（&amp; ,*）/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+
+                    
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span> -
+            
+            2021 <i class="fas fa-heart icon-animate"></i> <a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+
+        
+
+        <!-- TOC aside toggle -->
+        
+
+    </ul>
+</div>
+
+    </div>
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-top flex-center">
+            <i class="fas fa-arrow-up"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="tools-ul-1">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+    </ul>
+</div>
+
+    </div>
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-amp"><span class="nav-number">1.</span> <span class="nav-text">对于&amp;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E"><span class="nav-number">2.</span> <span class="nav-text">对于*</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E5%85%B8%E5%9E%8B%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">引用的典型案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E5%85%B8%E5%9E%8B%E6%A1%88%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">指针的典型案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E5%86%B3%E5%AE%9A%E4%BA%86%E7%AC%A6%E5%8F%B7%E7%9A%84%E5%90%AB%E4%B9%89%E3%80%82"><span class="nav-number">5.</span> <span class="nav-text">符号的上下文决定了符号的含义。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+    <!-- image viewer -->
+    <div class="image-viewer-container">
+    <div class="img-box">
+        <img src="">
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/left-side-toggle.js"></script>
+
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/code-copy.js"></script>
+    
+
+    
+
+
+</body>
+</html>
